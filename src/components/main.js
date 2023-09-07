@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-import './App.css';
-import Main from './components/main.js';
+import {ABI,address} from './config.js'
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -22,6 +22,8 @@ class App extends Component {
         await window.ethereum.enable(); // Request user permission to connect
         const accounts = await web3.eth.getAccounts();
         this.setState({ account: accounts[0] });
+        const scontract = new web3.eth.Contract(ABI,address)
+        this.setState({scontract})
       } else {
         console.log('Please install MetaMask or use a compatible browser extension.');
       }
@@ -31,9 +33,10 @@ class App extends Component {
   }
 
   render() {
+    const {account} = this.state;
     return (
      <>
-     <Main/>
+     <h5>Hello account no:{account}</h5>
      </>
     );
   }
