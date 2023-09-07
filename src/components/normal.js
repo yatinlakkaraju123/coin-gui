@@ -6,7 +6,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: ''
+      account: '',
+      balance_pressed:0,
+      amount_balance:0,
     };
   }
 
@@ -31,12 +33,20 @@ class App extends Component {
       console.error('Error loading blockchain data:', error);
     }
   }
-
+  async see_balance() {
+    const {scontract} = this.state;
+    const balance_amount = await scontract.methods.balance().call();
+    console.log(scontract.methods.balance().call());
+    this.setState({amount_balance:balance_amount})
+    this.setState({balance_pressed:1})
+  }
   render() {
-    const {account} = this.state;
+    const {account,balance_pressed,amount_balance} = this.state;
     return (
      <>
-     <h5>Hello account no:{account}</h5>
+     <button type="button" class="btn btn-success" onClick={() => this.see_balance()}>See Balance in the account</button>
+     {balance_pressed==1 && <div><p>Balance in the account:{amount_balance}</p></div>}
+
      </>
     );
   }

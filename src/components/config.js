@@ -69,4 +69,4 @@ export const ABI = [
       "constant": true
     }
   ];
-export const address = '0x592e6f24C158e5c02c8595F7864aF867Bac6F694';
+export const address = '0x3487c5f47005BEE14efc2AD371A82119A7a5872f';
