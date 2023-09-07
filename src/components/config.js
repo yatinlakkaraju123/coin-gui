@@ -55,7 +55,13 @@ export const ABI = [
       "type": "function"
     },
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
       "name": "balance",
       "outputs": [
         {
@@ -69,4 +75,4 @@ export const ABI = [
       "constant": true
     }
   ];
-export const address = '0x3487c5f47005BEE14efc2AD371A82119A7a5872f';
+export const address = '0xcAA9592cDcC3Ff80a4E17577BB3bDe268548167C';

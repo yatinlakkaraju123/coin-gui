@@ -50,9 +50,9 @@ class App extends Component {
     }
   }
   async see_balance() {
-    const {scontract} = this.state;
-    const balance_amount = await scontract.methods.balance().call();
-    console.log(scontract.methods.balance().call());
+    const {scontract,account} = this.state;
+    const balance_amount = await scontract.methods.balance(account).call();
+    console.log(scontract.methods.balance(account).call());
     this.setState({amount_balance:balance_amount})
     this.setState({balance_pressed:1})
   }
@@ -67,6 +67,10 @@ class App extends Component {
     const {scontract,addr,amount,account} = this.state;
     console.log("amount"+amount);
     await scontract.methods.mint(addr,parseInt(amount)).send({from:account});
+  }
+  async send(){
+    const {scontract,addr,amount,account} = this.state;
+    await scontract.methods.send(addr,parseInt(amount)).send({from:account});
   }
   render() {
     const {account,address_minter,amount_balance,balance_pressed} = this.state;
@@ -94,7 +98,21 @@ class App extends Component {
      {address_minter==0 &&  <>
      <button type="button" class="btn btn-success" onClick={() => this.see_balance()}>See Balance in the account</button>
      {balance_pressed==1 && <div><p>Balance in the account:{amount_balance}</p></div>}
-
+     <form>
+              <div class="container mb-3 flex">
+                <label class="form-label">Enter address of the reciever</label>
+                <input type="text" class="form-control" id="exampleTo" value={this.state.addr}
+                  onChange={this.handle_address_change} />
+              </div>
+              <div class="container mb-3 flex">
+                <label class="form-label">Enter amount to be sent</label>
+                <input type="text" class="form-control" id="exampleTo" value={this.state.amount}
+                  onChange={this.handle_amount_change} />
+              </div>
+           
+              <button type="button" class="btn btn-success" onClick={() => this.send()}>Submit</button>
+            
+            </form>
      </>}
      </>
     );
