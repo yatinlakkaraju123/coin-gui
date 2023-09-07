@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import {ABI,address} from './config.js'
-import Minter from './minter.js'
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: ''
+      account: '',
+      address_minter:-1,
     };
   }
 
@@ -23,7 +24,7 @@ class App extends Component {
         const accounts = await web3.eth.getAccounts();
         this.setState({ account: accounts[0] });
         const scontract = new web3.eth.Contract(ABI,address)
-        this.setState({scontract})
+        this.setState({scontract},()=> {this.minter_or_normal()})
       } else {
         console.log('Please install MetaMask or use a compatible browser extension.');
       }
@@ -31,12 +32,26 @@ class App extends Component {
       console.error('Error loading blockchain data:', error);
     }
   }
-
+  async minter_or_normal()
+  {
+    const {scontract,account} = this.state;
+    const addr = await scontract.methods.minter().call();
+    if(account==addr)
+    {
+        this.setState({address_minter:1})
+    }
+    else
+    {
+        this.setState({address_minter:0})
+    }
+  }
   render() {
-    const {account} = this.state;
+    const {account,address_minter} = this.state;
     return (
      <>
-     <Minter/>
+     <h5>Hello account no:{account}</h5>
+     {address_minter==1 && <div><p>Minter</p></div>}
+     {address_minter==0 && <div><p>normal user</p></div>}
      </>
     );
   }

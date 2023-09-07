@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import {ABI,address} from './config.js'
-import Minter from './minter.js'
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +36,7 @@ class App extends Component {
     const {account} = this.state;
     return (
      <>
-     <Minter/>
+     <h5>Hello account no:{account}</h5>
      </>
     );
   }
